@@ -1,6 +1,7 @@
 import sqlite3
 import socket
 import os
+import threading
 
 DATABASE_FILE = 'monitoring.db'
 
@@ -22,12 +23,16 @@ def init_db():
     return conn
 
 def store_data_in_db(conn, sonde_name, server, data):
+    print("Insertion base de donnée.")
     c = conn.cursor()
     c.execute(
         "INSERT INTO sonde_data (sonde_name, server, data) VALUES (?, ?, ?)",
         (sonde_name, server, data),
     )
     conn.commit()
+
+def count_files_in_directory():
+    return len([f for f in os.listdir("sondes") if os.path.isfile(os.path.join("sondes", f)) and f.split('.')[-2].endswith("_sonde")])
 
 def run_server():
     conn = init_db()
@@ -41,7 +46,7 @@ def run_server():
 
     try:
         while True:
-            num_files = len([f for f in os.listdir("sondes") if os.path.isfile(os.path.join("sondes", f))])
+            num_files = count_files_in_directory()
             server_socket.listen(num_files)
             print(f"Nombre de connexions simultanées autorisées : {num_files}")
 
@@ -51,6 +56,8 @@ def run_server():
             data = client_socket.recv(1024).decode('utf-8')
             if data:
                 print(f"Données reçues : {data}")
+                if data == "update sondes":
+                    continue
                 try:
                     server, sonde_name, sonde_data = data.split('\t', 2)
                     store_data_in_db(conn, sonde_name, server, sonde_data)
@@ -58,10 +65,31 @@ def run_server():
                     print("Erreur : Format de données incorrect.")
             client_socket.close()
     except KeyboardInterrupt:
-        print("\nArrêt du serveur...")
-    finally:
         conn.close()
         server_socket.close()
 
+def monitor_directory():
+    previous_count = count_files_in_directory()
+    
+    while True:
+        current_count = count_files_in_directory()
+        if current_count != previous_count:
+            host = "localhost"
+            port = 5000
+
+            client_socket = socket.socket()
+            client_socket.connect((host, port))
+
+            message = "update sondes"
+            client_socket.send(message.encode())
+
+            client_socket.close()
+
+            previous_count = current_count
+
 if __name__ == "__main__":
+    thread = threading.Thread(target=monitor_directory)
+    thread.start()
     run_server()
+    
+    

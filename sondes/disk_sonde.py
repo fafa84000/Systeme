@@ -11,7 +11,7 @@ def sonde_send():
     client_socket = socket.socket()
     client_socket.connect((host, port))
 
-    message = f"{host}\tdisk\t{data()}"
+    message = f"{socket.gethostname()}\tdisk\t{data()}"
     client_socket.send(message.encode())
 
     client_socket.close()
