@@ -1,6 +1,5 @@
 import sqlite3
 import json
-from datetime import datetime
 
 DATABASE_FILE = 'monitoring.db'
 
@@ -21,16 +20,14 @@ def init_db():
     conn.commit()
     return conn
 
-def store_sonde_data(conn, server, sonde_name, data):
-    c = conn.cursor()
-    json_data = json.dumps(data)
-    c.execute("INSERT INTO sonde_data (sonde_name, server, data) VALUES (?,?)", (sonde_name, server, json_data))
-    conn.commit()
+def store_sonde_data():
+    # check photos (python socket)
+    return
 
 def clean_old_data(conn, retention_period_hours=24):
     c = conn.cursor()
     query = """
-        DELETE FROM probe_data
+        DELETE FROM sonde_data
         WHERE timestamp < datetime('now', ?)
     """
     c.execute(query, (f'-{retention_period_hours} hours',))
@@ -39,7 +36,5 @@ def clean_old_data(conn, retention_period_hours=24):
 
 if __name__ == "__main__":
     conn = init_db()
-    
-    
     
     conn.close()
