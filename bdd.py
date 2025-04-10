@@ -1,5 +1,4 @@
 import sqlite3
-import json
 
 DATABASE_FILE = 'monitoring.db'
 
