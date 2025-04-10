@@ -1,3 +1,1 @@
-#!/bin/bash
-
-echo "`hostname`    users   `who | wc -l`" | nc -N FA 5000;
+echo -e "`hostname`\tusers\t`who | wc -l`"; nc -N localhost 5000;
