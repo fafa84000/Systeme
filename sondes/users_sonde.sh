@@ -1,1 +1,0 @@
-echo -e "`hostname`\tusers\t`who | wc -l`"; nc -N localhost 5000;

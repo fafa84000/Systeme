@@ -1,21 +1,20 @@
 import psutil
 import socket
+import sys
+from config import HOST,PORT
 
 def data():
-    return psutil.cpu_percent(interval=1)
+    return psutil.disk_usage('/').percent
 
-def sonde_send():
-    host = "localhost"
-    port = 5000
-
+def sonde_send(host,port):
     client_socket = socket.socket()
     client_socket.connect((host, port))
 
-    message = f"{socket.gethostname()}\tcpu\t{data()}"
+    message = f"sonde\t{socket.gethostname()}\tdisk\t{data()}"
     client_socket.send(message.encode())
 
     client_socket.close()
 
 
 if __name__ == '__main__':
-    sonde_send()
+    sonde_send(HOST,PORT)
