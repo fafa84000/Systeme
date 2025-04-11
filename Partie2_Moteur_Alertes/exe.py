@@ -1,13 +1,16 @@
 import os
 import time
 import subprocess
+import socket
+import sys
 
-dossier_sondes = './'
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import HOST, PORT, PROBES_DIRECTORY, FIND
 
 def executer_sonde(sonde):
     try:
         if sonde.endswith('.py'):
-            subprocess.run(['python3', sonde], check=True)
+            subprocess.run(['python', sonde], check=True)
         elif sonde.endswith('.sh'):
             subprocess.run(['bash', sonde], check=True)
         print(f"Sonde {sonde} exécutée avec succès.")
@@ -15,9 +18,17 @@ def executer_sonde(sonde):
         print(f"Erreur lors de l'exécution de {sonde}: {e}")
 
 def main():
-    fichiers = os.listdir(dossier_sondes)
+    client_socket = socket.socket()
+    client_socket.connect((HOST, PORT))
 
-    sondes = [f for f in fichiers if f.endswith('_sonde.py') or f.endswith('_sonde.sh')]
+    message = "update sondes number"
+    client_socket.send(message.encode())
+
+    client_socket.close()
+    
+    fichiers = os.listdir(PROBES_DIRECTORY)
+
+    sondes = [f for f in fichiers if f.endswith(f'{FIND}.py') or f.endswith(f'{FIND}.sh')]
 
     if not sondes:
         print("Aucune sonde trouvée dans le dossier.")
@@ -27,7 +38,7 @@ def main():
             print(f"- {sonde}")
 
     for sonde in sondes:
-        sonde_path = os.path.join(dossier_sondes, sonde)
+        sonde_path = os.path.join(PROBES_DIRECTORY, sonde)
         executer_sonde(sonde_path)
         time.sleep(5)
 
