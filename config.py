@@ -2,10 +2,10 @@ import sys
 
 HOST = "localhost"
 PORT = 5000
-PROBES_DIRECTORY = "../Partie1_Sondes"
+PROBES_DIRECTORY = "~/Systeme/Partie1_Sondes"
 FIND = "_sonde"
-DATABASE_FILE = "../monitoring.db"
-SQL = "../monitoring.sql"
+DATABASE_FILE = "~/Systeme/monitoring.db"
+SQL = "~/Systeme/monitoring.sql"
 
 if len(sys.argv) > 1:
     print(f"{HOST} {PORT}")

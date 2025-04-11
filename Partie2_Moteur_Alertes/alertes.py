@@ -1,6 +1,5 @@
 import requests
 import xmltodict
-import pprint
 import socket
 import os
 import sys

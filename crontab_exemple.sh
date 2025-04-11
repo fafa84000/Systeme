@@ -1,5 +1,5 @@
 # execution au demarage du moteur de stockage et de l'ecouteur du nombre de sondes
-@reboot python3 /path/Systeme/Partie2_Moteur_Alertes/moteur_de_stockage.py
+@reboot python3 ~/Systeme/Partie2_Moteur_Alertes/moteur_de_stockage.py
 @reboot python3 /path/Systeme/Partie2_Moteur_Alertes/update_number.py
 
 # suppression des données obselétes
