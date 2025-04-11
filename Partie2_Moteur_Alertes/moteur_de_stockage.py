@@ -6,14 +6,16 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import HOST,PORT,PROBES_DIRECTORY,FIND,DATABASE_FILE,SQL
 
-def read_sql_file(file):
-    with open(file, 'r', encoding='utf-8') as file:
+def read_sql_file():
+    with open(SQL, 'r', encoding='utf-8') as file:
         return file.read()
 
-def init_db(file,sql):
-    conn = sqlite3.connect(file)
+def init_db():
+    conn = sqlite3.connect(DATABASE_FILE)
     c = conn.cursor()
-    c.execute(read_sql_file(sql))
+    stmts = read_sql_file().split(';')
+    for stmt in stmts:
+        c.execute(stmt)
     conn.commit()
     return conn
 
@@ -21,31 +23,42 @@ def store_data_in_db(conn, sonde_name, server, data):
     print("Insertion base de donnée.")
     c = conn.cursor()
     c.execute(
-        "INSERT INTO sonde_data (sonde_name, server, data) VALUES (?, ?, ?)",
-        (sonde_name, server, data),
+        """
+        INSERT INTO sonde_data (sonde_name, server, data)
+        VALUES (?, ?, ?)
+        """,
+        (sonde_name, server, data)
     )
     conn.commit()
 
-def store_alerte_in_db(conn):
+def store_alerte_in_db(conn, title, link, description):
     print("Insertion base de donnée.")
     c = conn.cursor()
     c.execute(
-        """"""
+        """
+        INSERT INTO alertes (title, link, description)
+        SELECT ?, ?, ?
+        WHERE NOT EXISTS (
+            SELECT 1 FROM alertes WHERE link = ?
+        );
+        """,
+        (title, link, description, link)
     )
     conn.commit()
 
-def count_files_in_directory(directory,find):
-    return len([f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f)) and f.split('.')[-2].endswith(find)])
 
-def run_server(conn,host,port,directory,find):
+def count_files_in_directory():
+    return len([f for f in os.listdir(PROBES_DIRECTORY) if f.split('.')[-2].endswith(FIND)])
+
+def run_server(conn):
     server_socket = socket.socket()
-    server_socket.bind((host, port))
+    server_socket.bind((HOST, PORT))
 
-    print(f"Serveur démarré sur {host}:{port}, en attente de connexions...")
+    print(f"Serveur démarré sur {HOST}:{PORT}, en attente de connexions...")
 
     try:
         while True:
-            num_files = count_files_in_directory(directory,find)
+            num_files = count_files_in_directory()
             server_socket.listen(num_files)
             print(f"Nombre de connexions simultanées autorisées : {num_files}")
 
@@ -64,9 +77,10 @@ def run_server(conn,host,port,directory,find):
                     except ValueError:
                         print("Erreur : Format de données incorrect.")
                 elif data[0] == "a":
+                    print(data.split('\t'))
                     try:
-                        type = data.split('\t')
-                        store_alerte_in_db(conn)
+                        type,title,link,description = data.split('\t')
+                        store_alerte_in_db(conn,title,link,description)
                     except ValueError:
                         print("Erreur : Format de données incorrect.")
             client_socket.close()
@@ -75,6 +89,6 @@ def run_server(conn,host,port,directory,find):
         server_socket.close()
 
 if __name__ == "__main__":
-    conn = init_db(DATABASE_FILE,SQL)
+    conn = init_db()
 
-    run_server(conn,HOST,PORT,PROBES_DIRECTORY,FIND)
+    run_server(conn)

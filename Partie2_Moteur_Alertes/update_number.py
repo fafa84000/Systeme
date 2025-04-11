@@ -5,17 +5,18 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import *
 
-def count_files_in_directory(directory,find):
-    return len([f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f)) and f.split('.')[-2].endswith(find)])
+def count_files_in_directory():
+    return len([f for f in os.listdir(PROBES_DIRECTORY) if f.split('.')[-2].endswith(FIND)])
 
-def update(host,port,directory,find):
-    previous_count = count_files_in_directory(directory,find)
+def update():
+    previous_count = count_files_in_directory()
     
     while True:
-        current_count = count_files_in_directory(directory,find)
+        current_count = count_files_in_directory()
         if current_count != previous_count:
+
             client_socket = socket.socket()
-            client_socket.connect((host, port))
+            client_socket.connect((HOST, PORT))
 
             message = "update sondes number"
             client_socket.send(message.encode())
@@ -25,4 +26,4 @@ def update(host,port,directory,find):
             previous_count = current_count
 
 if __name__ == '__main__':
-    update(HOST,PORT,PROBES_DIRECTORY,FIND)
+    update()
