@@ -7,7 +7,7 @@ dossier_sondes = './'
 def executer_sonde(sonde):
     try:
         if sonde.endswith('.py'):
-            subprocess.run(['python', sonde], check=True)
+            subprocess.run(['python3', sonde], check=True)
         elif sonde.endswith('.sh'):
             subprocess.run(['bash', sonde], check=True)
         print(f"Sonde {sonde} exécutée avec succès.")
