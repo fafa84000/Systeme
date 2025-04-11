@@ -10,7 +10,7 @@ from config import HOST, PORT, PROBES_DIRECTORY, FIND
 def executer_sonde(sonde):
     try:
         if sonde.endswith('.py'):
-            subprocess.run(['python', sonde], check=True)
+            subprocess.run(['python3', sonde], check=True)
         elif sonde.endswith('.sh'):
             subprocess.run(['bash', sonde], check=True)
     except subprocess.CalledProcessError as e:
