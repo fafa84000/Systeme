@@ -13,7 +13,6 @@ def executer_sonde(sonde):
             subprocess.run(['python', sonde], check=True)
         elif sonde.endswith('.sh'):
             subprocess.run(['bash', sonde], check=True)
-        print(f"Sonde {sonde} exécutée avec succès.")
     except subprocess.CalledProcessError as e:
         print(f"Erreur lors de l'exécution de {sonde}: {e}")
 
@@ -30,10 +29,7 @@ def main():
 
     sondes = [f for f in fichiers if f.endswith(f'{FIND}.py') or f.endswith(f'{FIND}.sh')]
 
-    if not sondes:
-        print("Aucune sonde trouvée dans le dossier.")
-    else:
-        print("Sondes trouvées :")
+    if sondes:
         for sonde in sondes:
             print(f"- {sonde}")
 

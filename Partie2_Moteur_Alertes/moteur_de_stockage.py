@@ -20,7 +20,6 @@ def init_db():
     return conn
 
 def store_data_in_db(conn, sonde_name, server, data):
-    print("Insertion base de donnée.")
     c = conn.cursor()
     c.execute(
         """
@@ -32,7 +31,6 @@ def store_data_in_db(conn, sonde_name, server, data):
     conn.commit()
 
 def store_alerte_in_db(conn, title, link, description):
-    print("Insertion base de donnée.")
     c = conn.cursor()
     c.execute(
         """
@@ -54,20 +52,15 @@ def run_server(conn):
     server_socket = socket.socket()
     server_socket.bind((HOST, PORT))
 
-    print(f"Serveur démarré sur {HOST}:{PORT}, en attente de connexions...")
-
     try:
         while True:
             num_files = count_files_in_directory()
             server_socket.listen(num_files)
-            print(f"Nombre de connexions simultanées autorisées : {num_files}")
 
             client_socket, address = server_socket.accept()
-            print(f"Connexion acceptée de {address}")
 
             data = client_socket.recv(1024).decode('utf-8')
             if data:
-                print(f"Données reçues : {data}")
                 if data[0] == "u":
                     continue
                 elif data[0] == "s":
