@@ -4,3 +4,5 @@ PROBES_DIRECTORY = "../Partie1_Sondes"
 FIND = "_sonde"
 DATABASE_FILE = "../monitoring.db"
 SQL = "../monitoring.sql"
+
+print(f"{HOST} {PORT}")
