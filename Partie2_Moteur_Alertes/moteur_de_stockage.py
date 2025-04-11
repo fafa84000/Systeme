@@ -2,6 +2,8 @@ import sqlite3
 import socket
 import os
 import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import HOST,PORT,PROBES_DIRECTORY,FIND,DATABASE_FILE,SQL
 
 def read_sql_file(file):
