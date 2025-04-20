@@ -37,6 +37,7 @@ def store_alerte_in_db(conn, title, link, description):
         log_error(e)
 
 def count_files_in_directory():
+    log_error(SONDES_DIRECTORY)
     return len([f for f in listdir(SONDES_DIRECTORY) if f.split('.')[-2].endswith(FIND)])
 
 def run_server():
