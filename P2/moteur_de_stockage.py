@@ -19,13 +19,7 @@ def store_data_in_db(conn, sonde_name, server, data):
             """,
             (sonde_name, server, data)
         )
-        pprint(conn.execute(
-            """
-            SELECT * FROM sonde_data
-            ORDER BY id DESC
-            LIMIT 1;
-            """,
-        ).fetchall())
+        conn.commit()
         print("Sonde stockée")
     except Exception as e:
         log_error(e)
@@ -42,6 +36,7 @@ def store_alerte_in_db(conn, title, link, description):
             """,
             (title, link, description, link)
         )
+        conn.commit()
         print("Alerte stockée")
     except Exception as e:
         log_error(e)
@@ -94,7 +89,6 @@ def run_server():
     except Exception as e:
         log_error(e)
     finally:
-        conn.commit()
         if conn:
             conn.close()
         server_socket.close()

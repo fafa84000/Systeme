@@ -19,6 +19,7 @@ def delete(table,time,unit):
             WHERE timestamp < datetime('now', '-{time} {unit}');
             """
         )
+        conn.commit()
     except Exception as e:
         log_error(e)
     finally:
