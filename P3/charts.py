@@ -4,6 +4,7 @@ from sys import path as pathSys, argv
 from os import path as pathOs
 
 pathSys.append(pathOs.dirname(pathOs.dirname(pathOs.abspath(__file__))))
+from config import CHART_FILE
 from DB_init import init
 from log_manager import log_error
 
@@ -50,7 +51,7 @@ def chart(server):
         values = [sonde["values"][sonde["timestamps"].index(timestamp)] if timestamp in sonde["timestamps"] else None for timestamp in timestamps]
         lineChart.add(sonde_name,values)
 
-    lineChart.render_to_file('../line_chart.svg')
+    lineChart.render_to_file(CHART_FILE)
 
 
 if __name__ == "__main__":

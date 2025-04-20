@@ -13,6 +13,8 @@ SQL = PROJECT_ROOT + "monitoring.sql"
 
 LOG_FILE = PROJECT_ROOT + "log.log"
 
+CHART_FILE = PROJECT_ROOT + "server_data.svg"
+
 ALERTS_URL = "https://www.cert.ssi.gouv.fr/alerte/feed/"
 
 #"nom_sonde" est le nom que la sonde envoie au port d'ecoute (PORT en haut de ce fichier); ex: "cpu"
