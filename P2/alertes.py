@@ -33,10 +33,13 @@ def send_data():
         description = alerte['description']
         
         try:
-            with socket() as client_socket:
-                client_socket.connect((HOST, PORT))
-                message = f"alerte\t{title}\t{link}\t{description}"
-                client_socket.send(message.encode())
+            client_socket = socket()
+            client_socket.connect((HOST, PORT))
+
+            message = f"alerte\t{title}\t{link}\t{description}"
+            client_socket.send(message.encode())
+
+            client_socket.close()
         except Exception as e:
             log_error(e)
 
