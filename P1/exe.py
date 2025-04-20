@@ -19,12 +19,15 @@ def executer_sonde(sonde):
     except Exception as e:
         log_error(e)
 
-def exeAll():
+def main():
     try:
-        with socket() as client_socket:
-            client_socket.connect((HOST, PORT))
-            message = "update sondes number"
-            client_socket.send(message.encode())
+        client_socket = socket()
+        client_socket.connect((HOST, PORT))
+
+        message = "update sondes number"
+        client_socket.send(message.encode())
+
+        client_socket.close()
     except Exception as e:
         log_error(e)
     
@@ -39,4 +42,4 @@ def exeAll():
         log_error(e)
 
 if __name__ == "__main__":
-    exeAll()
+    main()
