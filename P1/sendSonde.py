@@ -8,9 +8,12 @@ from log_manager import log_error
 
 def sonde_send(name,data):
     try:
-        with socket() as client_socket:
-            client_socket.connect((HOST, PORT))
-            message = f"sonde\t{gethostname()}\t{name}\t{data}"
-            client_socket.send(message.encode())
+        client_socket = socket()
+        client_socket.connect((HOST, PORT))
+
+        message = f"sonde\t{gethostname()}\t{name}\t{data}"
+        client_socket.send(message.encode())
+
+        client_socket.close()
     except Exception as e:
         log_error(e)
