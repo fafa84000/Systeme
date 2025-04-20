@@ -94,6 +94,7 @@ def run_server():
     except Exception as e:
         log_error(e)
     finally:
+        conn.commit()
         if conn:
             conn.close()
         server_socket.close()
