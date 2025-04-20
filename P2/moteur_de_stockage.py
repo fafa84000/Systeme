@@ -66,7 +66,7 @@ def run_server():
             client_socket = server_socket.accept()[0]
 
             data = client_socket.recv(1024).decode('utf-8')
-            print(f"Donnée reçue:\n\t\t{data}\n")
+            print(f"Donnée reçue:\n\n\t{data}\n")
             if data:
                 if data[0] == "u":
                     continue
