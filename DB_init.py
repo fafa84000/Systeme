@@ -4,8 +4,6 @@ from log_manager import log_error
 
 def init():
     try:
-        print(DATABASE_FILE)
-        print(SQL)
         conn = connect(DATABASE_FILE)
         c = conn.cursor()
 
