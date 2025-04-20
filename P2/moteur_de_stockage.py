@@ -3,6 +3,7 @@
 from socket import socket
 from sys import path as pathSys
 from os import path as pathOs, listdir
+from pprint import pprint
 
 pathSys.append(pathOs.dirname(pathOs.dirname(pathOs.abspath(__file__))))
 from config import HOST, PORT, SONDES_DIRECTORY, FIND
@@ -18,7 +19,7 @@ def store_data_in_db(conn, sonde_name, server, data):
             """,
             (sonde_name, server, data)
         )
-        print(conn.execute(
+        pprint(conn.execute(
             """
             SELECT * FROM sonde_data
             ORDER BY id DESC
