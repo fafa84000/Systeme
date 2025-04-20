@@ -1,23 +1,32 @@
-import sqlite3
-import sys
-import os
+#!/usr/bin/env python3
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import DATABASE_FILE
+from sys import path as pathSys, argv
+from os import path as pathOs
+
+pathSys.append(pathOs.dirname(pathOs.dirname(pathOs.abspath(__file__))))
+from DB_init import init
+from log_manager import log_error
 
 def delete(table,time,unit):
-    conn = sqlite3.connect(DATABASE_FILE)
-    c = conn.cursor()
+    conn = init()
+    if not conn:
+        return
     
-    query = f"""
-    DELETE FROM {table}
-    WHERE timestamp < datetime('now', '-{time} {unit}');
-    """
-    c.execute(query)
-    conn.commit()
+    try:
+        conn.execute(
+            f"""
+            DELETE FROM {table}
+            WHERE timestamp < datetime('now', '-{time} {unit}');
+            """
+        )
+    except Exception as e:
+        log_error(e)
+    finally:
+        if conn:
+            conn.close()
 
 if __name__ == '__main__':
-    table = sys.argv[1] # ex: sonde_data
-    time = sys.argv[2] # ex: 1
-    unit = sys.argv[3] # ex: DAY
+    table = argv[1] # ex: sonde_data
+    time = argv[2] # ex: 1
+    unit = argv[3] # ex: DAY
     delete(table,time,unit)

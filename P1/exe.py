@@ -1,42 +1,42 @@
-import os
-import time
-import subprocess
-import socket
-import sys
+#!/usr/bin/env python3
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import HOST, PORT, PROBES_DIRECTORY, FIND
+from sys import path as pathSys
+from os import path as pathOs, listdir
+from time import sleep
+from subprocess import run
+from socket import socket
+
+pathSys.append(pathOs.dirname(pathOs.dirname(pathOs.abspath(__file__))))
+from config import HOST, PORT, SONDES_DIRECTORY, FIND
+from log_manager import log_error
 
 def executer_sonde(sonde):
     try:
         if sonde.endswith('.py'):
-            subprocess.run(['python3', sonde], check=True)
+            run(['python3', sonde], check=True)
         elif sonde.endswith('.sh'):
-            subprocess.run(['bash', sonde], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Erreur lors de l'exécution de {sonde}: {e}")
+            run(['bash', sonde], check=True)
+    except Exception as e:
+        log_error(e)
 
-def main():
-    client_socket = socket.socket()
-    client_socket.connect((HOST, PORT))
-
-    message = "update sondes number"
-    client_socket.send(message.encode())
-
-    client_socket.close()
+def exeAll():
+    try:
+        with socket() as client_socket:
+            client_socket.connect((HOST, PORT))
+            message = "update sondes number"
+            client_socket.send(message.encode())
+    except Exception as e:
+        log_error(e)
     
-    fichiers = os.listdir(PROBES_DIRECTORY)
-
-    sondes = [f for f in fichiers if f.endswith(f'{FIND}.py') or f.endswith(f'{FIND}.sh')]
-
-    if sondes:
+    try:
+        fichiers = listdir(SONDES_DIRECTORY)
+        sondes = [f for f in fichiers if f.endswith(f'{FIND}.py') or f.endswith(f'{FIND}.sh')]
         for sonde in sondes:
-            print(f"- {sonde}")
-
-    for sonde in sondes:
-        sonde_path = os.path.join(PROBES_DIRECTORY, sonde)
-        executer_sonde(sonde_path)
-        time.sleep(5)
+            sonde_path = pathOs.join(SONDES_DIRECTORY, sonde)
+            executer_sonde(sonde_path)
+            sleep(5)
+    except Exception as e:
+        log_error(e)
 
 if __name__ == "__main__":
-    main()
+    exeAll()

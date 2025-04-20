@@ -1,27 +1,28 @@
-import requests
-import xmltodict
-import socket
-import os
-import sys
+#!/usr/bin/env python3
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import HOST,PORT
+from requests import get
+from xmltodict import parse as parseXML
+from socket import socket
+from sys import path as pathSys
+from os import path as pathOs
 
-url = "https://www.cert.ssi.gouv.fr/alerte/feed/"
+pathSys.append(pathOs.dirname(pathOs.dirname(pathOs.abspath(__file__))))
+from config import HOST, PORT, ALERTS_URL
+from log_manager import log_error
 
 def data():
     try:
-        response = requests.get(url)
+        response = get(ALERTS_URL)
         response.raise_for_status()
 
         xml_content = response.content
-        parsed_xml = xmltodict.parse(xml_content)
+        parsed_xml = parseXML(xml_content)
         alerte = parsed_xml['rss']['channel']['item'][-1]
         
         return alerte
-
-    except requests.exceptions.RequestException as e:
-        print(f"Erreur lors de la récupération du flux: {e}")
+    except Exception as e:
+        log_error(e)
+        return None
 
 def send_data():
     alerte = data()
@@ -31,13 +32,13 @@ def send_data():
         link = alerte['link']
         description = alerte['description']
         
-        client_socket = socket.socket()
-        client_socket.connect((HOST, PORT))
-
-        message = f"alerte\t{title}\t{link}\t{description}"
-        client_socket.send(message.encode())
-
-        client_socket.close()
+        try:
+            with socket() as client_socket:
+                client_socket.connect((HOST, PORT))
+                message = f"alerte\t{title}\t{link}\t{description}"
+                client_socket.send(message.encode())
+        except Exception as e:
+            log_error(e)
 
 
 if __name__ == "__main__":

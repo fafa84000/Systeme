@@ -1,0 +1,7 @@
+
+2025-04-19 01:07:47,643 - ERROR - Exception occured: [Errno 2] No such file or directory: 'C:/Users/assim/Documents/Univ/Systeme/monitoring1.sql' - File: log_manager.py - Line: 11
+Traceback (most recent call last):
+  File "C:\Users\assim\Documents\Univ\Systeme\DB_init.py", line 10, in init
+    with open(SQL, 'r', encoding='utf-8') as file:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:/Users/assim/Documents/Univ/Systeme/monitoring1.sql'

@@ -1,25 +1,8 @@
-#!/usr/bin/env python3
-
-import psutil
-import socket
-import sys
-import os
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import HOST,PORT
+from psutil import disk_usage
+from sendSonde import sonde_send
 
 def data():
-    return psutil.disk_usage('/').percent
-
-def sonde_send():
-    client_socket = socket.socket()
-    client_socket.connect((HOST, PORT))
-
-    message = f"sonde\t{socket.gethostname()}\tdisk\t{data()}"
-    client_socket.send(message.encode())
-
-    client_socket.close()
-
+    return disk_usage('/').percent
 
 if __name__ == '__main__':
-    sonde_send()
+    sonde_send('disk',data())

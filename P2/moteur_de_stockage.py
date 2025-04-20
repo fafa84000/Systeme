@@ -1,63 +1,65 @@
-import sqlite3
-import socket
-import os
-import sys
+#!/usr/bin/env python3
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import HOST,PORT,PROBES_DIRECTORY,FIND,DATABASE_FILE,SQL
+from socket import socket
+from sys import path as pathSys
+from os import path as pathOs, listdir
 
-def read_sql_file():
-    with open(SQL, 'r', encoding='utf-8') as file:
-        return file.read()
-
-def init_db():
-    conn = sqlite3.connect(DATABASE_FILE)
-    c = conn.cursor()
-    stmts = read_sql_file().split(';')
-    for stmt in stmts:
-        c.execute(stmt)
-    conn.commit()
-    return conn
+pathSys.append(pathOs.dirname(pathOs.dirname(pathOs.abspath(__file__))))
+from config import HOST, PORT, SONDES_DIRECTORY, FIND
+from DB_init import init, re_init
+from log_manager import log_error
 
 def store_data_in_db(conn, sonde_name, server, data):
-    c = conn.cursor()
-    c.execute(
-        """
-        INSERT INTO sonde_data (sonde_name, server, data)
-        VALUES (?, ?, ?)
-        """,
-        (sonde_name, server, data)
-    )
-    conn.commit()
+    try:
+        conn.execute(
+            """
+            INSERT INTO sonde_data (sonde_name, server, data)
+            VALUES (?, ?, ?)
+            """,
+            (sonde_name, server, data)
+        )
+    except Exception as e:
+        log_error(e)
 
 def store_alerte_in_db(conn, title, link, description):
-    c = conn.cursor()
-    c.execute(
-        """
-        INSERT INTO alertes (title, link, description)
-        SELECT ?, ?, ?
-        WHERE NOT EXISTS (
-            SELECT 1 FROM alertes WHERE link = ?
-        );
-        """,
-        (title, link, description, link)
-    )
-    conn.commit()
-
+    try:
+        conn.execute(
+            """
+            INSERT INTO alertes (title, link, description)
+            SELECT ?, ?, ?
+            WHERE NOT EXISTS (
+                SELECT 1 FROM alertes WHERE link = ?
+            );
+            """,
+            (title, link, description, link)
+        )
+    except Exception as e:
+        log_error(e)
 
 def count_files_in_directory():
-    return len([f for f in os.listdir(PROBES_DIRECTORY) if f.split('.')[-2].endswith(FIND)])
+    return len([f for f in listdir(SONDES_DIRECTORY) if f.split('.')[-2].endswith(FIND)])
 
-def run_server(conn):
-    server_socket = socket.socket()
-    server_socket.bind((HOST, PORT))
+def run_server():
+    conn = init()
+    if not conn:
+        return
+
+    try:
+        server_socket = socket()
+        server_socket.bind((HOST, PORT))
+    except Exception as e:
+        log_error(e)
+        return
 
     try:
         while True:
+            conn = re_init(conn)
+            if not conn:
+                return
             num_files = count_files_in_directory()
             server_socket.listen(num_files)
 
-            client_socket, address = server_socket.accept()
+            client_socket = server_socket.accept()[0]
 
             data = client_socket.recv(1024).decode('utf-8')
             if data:
@@ -65,23 +67,24 @@ def run_server(conn):
                     continue
                 elif data[0] == "s":
                     try:
-                        type, server, sonde_name, sonde_data = data.split('\t')
+                        server, sonde_name, sonde_data = data.split('\t')[1:]
                         store_data_in_db(conn, sonde_name, server, sonde_data)
-                    except ValueError:
-                        print("Erreur : Format de données incorrect.")
+                    except Exception as e:
+                        log_error(e)
                 elif data[0] == "a":
-                    print(data.split('\t'))
                     try:
-                        type,title,link,description = data.split('\t')
+                        title,link,description = data.split('\t')[1:]
                         store_alerte_in_db(conn,title,link,description)
-                    except ValueError:
-                        print("Erreur : Format de données incorrect.")
+                    except Exception as e:
+                        log_error(e)
             client_socket.close()
-    except KeyboardInterrupt:
-        conn.close()
+    except Exception as e:
+        log_error(e)
+    finally:
+        if conn:
+            conn.close()
         server_socket.close()
 
-if __name__ == "__main__":
-    conn = init_db()
 
-    run_server(conn)
+if __name__ == "__main__":
+    run_server()
