@@ -1,0 +1,21 @@
+2025-04-20 22:00:00,999 - ERROR - Exception occured: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1. - File: log_manager.py - Line: 13
+Traceback (most recent call last):
+  File "/home/uapv2306164/Systeme/P1/exe.py", line 18, in executer_sonde
+    run(['bash', sonde], check=True)
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1.
+2025-04-20 22:11:01,925 - ERROR - Exception occured: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1. - File: log_manager.py - Line: 13
+Traceback (most recent call last):
+  File "/home/uapv2306164/Systeme/P1/exe.py", line 18, in executer_sonde
+    run(['bash', sonde], check=True)
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1.
+2025-04-20 22:12:01,266 - ERROR - Exception occured: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1. - File: log_manager.py - Line: 13
+Traceback (most recent call last):
+  File "/home/uapv2306164/Systeme/P1/exe.py", line 18, in executer_sonde
+    run(['bash', sonde], check=True)
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1.

@@ -1,8 +1,6 @@
 from sys import argv
 
-# PROJECT_ROOT = "C:/Users/assim/Documents/Univ/Systeme/"
-# PROJECT_ROOT = "/home/uapv2306164/Systeme/"
-PROJECT_ROOT = "/home/lsfaj/Systeme/"
+PROJECT_ROOT = "/home/uapv2306164/Systeme/"
 
 HOST = "localhost"
 PORT = 5000

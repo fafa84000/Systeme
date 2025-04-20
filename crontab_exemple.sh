@@ -21,8 +21,8 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
-@reboot python3 /home/lsfaj/Systeme/P2/moteur_de_stockage.py
-@reboot python3 /home/lsfaj/Systeme/P3/detector_crise.py
-*/10 * * * * python3 /home/lsfaj/Systeme/P1/exe.py
-0 0 * * * python3 /home/lsfaj/Systeme/P2/alertes.py
-0 0 * * * python3 /home/lsfaj/Systeme/P2/supp_bdd.py sonde_data 1 DAY
+@reboot python3 /home/uapv2306164/Systeme/P2/moteur_de_stockage.py
+@reboot python3 /home/uapv2306164/Systeme/P3/detector_crise.py
+* * * * * python3 /home/uapv2306164/Systeme/P1/exe.py
+0 0 * * * python3 /home/uapv2306164/Systeme/P2/alertes.py
+0 0 * * * python3 /home/uapv2306164/Systeme/P2/supp_bdd.py sonde_data 1 DAY
