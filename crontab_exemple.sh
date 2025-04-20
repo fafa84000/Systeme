@@ -1,11 +1,28 @@
-# execution au demarage du moteur de stockage et de l'ecouteur du nombre de sondes
-@reboot python3 ~/Systeme/Partie2_Moteur_Alertes/moteur_de_stockage.py
-@reboot python3 /path/Systeme/Partie2_Moteur_Alertes/update_number.py
-
-# suppression des données obselétes
-0 * * * * python3 /path/Systeme/Partie2_Moteur_Alertes/supp_bdd.py sonde_data 1 DAY
-
-# sondes
-0 * * * * python3 /path/Systeme/Partie1_Sondes/cpu_sonde.py
-0 * * * * python3 /path/Systeme/Partie1_Sondes/disk_sonde.py
-0 * * * * bash /path/Systeme/Partie1_Sondes/users_sonde.sh
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+@reboot python3 /home/lsfaj/Systeme/P2/moteur_de_stockage.py
+@reboot python3 /home/lsfaj/Systeme/P3/detector_crise.py
+*/10 * * * * python3 /home/lsfaj/Systeme/P1/exe.py
+0 0 * * * python3 /home/lsfaj/Systeme/P2/alertes.py
+0 0 * * * python3 /home/lsfaj/Systeme/P2/supp_bdd.py sonde_data 1 DAY
