@@ -25,7 +25,7 @@ def store_data_in_db(conn, sonde_name, server, data):
             ORDER BY id DESC
             LIMIT 1;
             """,
-        ).fetchall)
+        ).fetchall())
         print("Sonde stockée")
     except Exception as e:
         log_error(e)
