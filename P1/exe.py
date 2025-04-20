@@ -37,10 +37,11 @@ def main():
         print(f"Sondes presentes dans le dossier \"{SONDES_DIRECTORY}\":")
         for sonde in sondes:
             print(f"\t- {sonde}")
+        print("\n")
         for sonde in sondes:
             sonde_path = pathOs.join(SONDES_DIRECTORY, sonde)
             executer_sonde(sonde_path)
-            print(f"\nExecution: {sonde}")
+            print(f"Execution: {sonde}")
             sleep(5)
     except Exception as e:
         log_error(e)
