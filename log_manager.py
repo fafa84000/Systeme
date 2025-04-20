@@ -4,7 +4,8 @@ from config import LOG_FILE
 basicConfig(
     filename=LOG_FILE,
     level=ERROR,
-    format='\n%(asctime)s - %(levelname)s - %(message)s - File: %(filename)s - Line: %(lineno)d'
+    format='%(asctime)s - %(levelname)s - %(message)s - File: %(filename)s - Line: %(lineno)d',
+    filemode='a'
 )
 
 def log_error(exception):

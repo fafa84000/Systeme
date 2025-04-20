@@ -11,7 +11,7 @@ FIND = "_sonde"
 DATABASE_FILE = PROJECT_ROOT + "monitoring.db"
 SQL = PROJECT_ROOT + "monitoring.sql"
 
-LOG_FILE = PROJECT_ROOT + "error_log.txt"
+LOG_FILE = PROJECT_ROOT + "log.log"
 
 ALERTS_URL = "https://www.cert.ssi.gouv.fr/alerte/feed/"
 
