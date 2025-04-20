@@ -1,17 +1,17 @@
 from sys import argv
 
+# PROJECT_ROOT = "C:/Users/assim/Documents/Univ/Systeme/"
+# PROJECT_ROOT = "/home/uapv2306164/Systeme/"
+PROJECT_ROOT = "/home/lsfaj/Systeme/"
+
 HOST = "localhost"
 PORT = 5000
-SONDES_DIRECTORY = "C:/Users/assim/Documents/Univ/Systeme/P1"
-# SONDES_DIRECTORY = "/home/uapv2306164/Systeme/P1"
+SONDES_DIRECTORY = PROJECT_ROOT + "P1"
 FIND = "_sonde"
-DATABASE_FILE = "C:/Users/assim/Documents/Univ/Systeme/monitoring.db"
-# DATABASE_FILE = "/home/uapv2306164/Systeme/monitoring.db"
-SQL = "C:/Users/assim/Documents/Univ/Systeme/monitoring.sql"
-# SQL = "/home/uapv2306164/Systeme/monitoring.sql"
+DATABASE_FILE = PROJECT_ROOT + "monitoring.db"
+SQL = PROJECT_ROOT + "monitoring.sql"
 
-LOG_FILE = "C:/Users/assim/Documents/Univ/Systeme/error_log.txt"
-# LOG_FILE = "/home/uapv2306164/Systeme/error_log.txt"
+LOG_FILE = PROJECT_ROOT + "error_log.txt"
 
 ALERTS_URL = "https://www.cert.ssi.gouv.fr/alerte/feed/"
 
