@@ -52,7 +52,7 @@ def run_server():
     try:
         server_socket = socket()
         server_socket.bind((HOST, PORT))
-        print(f"Port {PORT} ouver !")
+        print(f"Port {PORT} ouvert !")
     except Exception as e:
         log_error(e)
         pprint(e)
