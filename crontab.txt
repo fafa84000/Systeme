@@ -25,4 +25,4 @@
 @reboot python3 /home/uapv2306164/Systeme/P3/detector_crise.py
 */10 * * * * python3 /home/uapv2306164/Systeme/P1/exe.py
 0 0 * * * python3 /home/uapv2306164/Systeme/P2/alertes.py
-0 0 * * * python3 /home/uapv2306164/Systeme/P2/supp_bdd.py sonde_data 1 DAY
+0 0 * * * python3 /home/uapv2306164/Systeme/P2/supp_bdd.py

@@ -1,21 +1,14 @@
-2025-04-20 22:00:00,999 - ERROR - Exception occured: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1. - File: log_manager.py - Line: 13
-Traceback (most recent call last):
-  File "/home/uapv2306164/Systeme/P1/exe.py", line 18, in executer_sonde
-    run(['bash', sonde], check=True)
-  File "/usr/lib/python3.12/subprocess.py", line 571, in run
-    raise CalledProcessError(retcode, process.args,
-subprocess.CalledProcessError: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1.
-2025-04-20 22:11:01,925 - ERROR - Exception occured: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1. - File: log_manager.py - Line: 13
-Traceback (most recent call last):
-  File "/home/uapv2306164/Systeme/P1/exe.py", line 18, in executer_sonde
-    run(['bash', sonde], check=True)
-  File "/usr/lib/python3.12/subprocess.py", line 571, in run
-    raise CalledProcessError(retcode, process.args,
-subprocess.CalledProcessError: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1.
-2025-04-20 22:12:01,266 - ERROR - Exception occured: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1. - File: log_manager.py - Line: 13
-Traceback (most recent call last):
-  File "/home/uapv2306164/Systeme/P1/exe.py", line 18, in executer_sonde
-    run(['bash', sonde], check=True)
-  File "/usr/lib/python3.12/subprocess.py", line 571, in run
-    raise CalledProcessError(retcode, process.args,
-subprocess.CalledProcessError: Command '['bash', '/home/uapv2306164/Systeme/P1/users_sonde.sh']' returned non-zero exit status 1.
+2025-04-25 03:08:58,547 - INFO - 127.0.0.1 - - [25/Apr/2025 03:08:58] "GET / HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:08:58,591 - INFO - 127.0.0.1 - - [25/Apr/2025 03:08:58] "GET /static/charts/FriFroukDesktop.svg HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:08:58,739 - INFO - 127.0.0.1 - - [25/Apr/2025 03:08:58] "GET /static/charts/HomeUbuntu.svg HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:09:58,935 - INFO - 127.0.0.1 - - [25/Apr/2025 03:09:58] "GET / HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:09:58,962 - INFO - 127.0.0.1 - - [25/Apr/2025 03:09:58] "[36mGET /static/charts/HomeUbuntu.svg HTTP/1.1[0m" 304 - - File: _internal.py - Line: 96
+2025-04-25 03:09:59,175 - INFO - 127.0.0.1 - - [25/Apr/2025 03:09:59] "[36mGET /static/charts/FriFroukDesktop.svg HTTP/1.1[0m" 304 - - File: _internal.py - Line: 96
+2025-04-25 03:10:42,645 - INFO - 127.0.0.1 - - [25/Apr/2025 03:10:42] "GET / HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:10:42,705 - INFO - 127.0.0.1 - - [25/Apr/2025 03:10:42] "GET /static/charts/FriFroukDesktop.svg HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:10:42,883 - INFO - 127.0.0.1 - - [25/Apr/2025 03:10:42] "GET /static/charts/HomeUbuntu.svg HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:11:05,128 - INFO - 127.0.0.1 - - [25/Apr/2025 03:11:05] "GET / HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:11:05,227 - INFO - 127.0.0.1 - - [25/Apr/2025 03:11:05] "[36mGET /static/charts/FriFroukDesktop.svg HTTP/1.1[0m" 304 - - File: _internal.py - Line: 96
+2025-04-25 03:11:05,393 - INFO - 127.0.0.1 - - [25/Apr/2025 03:11:05] "[36mGET /static/charts/HomeUbuntu.svg HTTP/1.1[0m" 304 - - File: _internal.py - Line: 96
+2025-04-25 03:13:04,528 - INFO - 127.0.0.1 - - [25/Apr/2025 03:13:04] "GET /static/charts/FriFroukDesktop.svg?_=1745543584514 HTTP/1.1" 200 - - File: _internal.py - Line: 96
+2025-04-25 03:13:04,762 - INFO - 127.0.0.1 - - [25/Apr/2025 03:13:04] "GET /static/charts/HomeUbuntu.svg?_=1745543584759 HTTP/1.1" 200 - - File: _internal.py - Line: 96

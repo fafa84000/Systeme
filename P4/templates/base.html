@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualisation des Graphiques Serveurs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1,h2,h3,h4,h5,h6 {
+            text-align: center;
+        }
+        .server-block > p {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        div[id^="chart-"] {
+            margin: 20px 0;
+            text-align: center;
+        }
+        object {
+            width: 800px;
+            height: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #c7d4e4;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Visualisation des Graphiques Serveurs</h1>
+    {% block content %}{% endblock %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const REFRESH_MS = 120_000; // poll interval
+        
+          document.querySelectorAll('object[type="image/svg+xml"]').forEach(obj => {
+            const srcUrl = obj.data;
+        
+            function reloadSVG() {
+              fetch(srcUrl + '?_=' + Date.now(), { cache: 'no-store' })
+                .then(res => res.text())
+                .then(svgText => {
+                  const parser = new DOMParser();
+                  const newDoc = parser.parseFromString(svgText, 'image/svg+xml');
+                  const newSvg = newDoc.documentElement;
+                  
+                  const objDoc = obj.contentDocument;
+                  if (!objDoc) return;
+                  
+                  const imported = objDoc.importNode(newSvg, true);
+                  const oldSvg = objDoc.documentElement;
+                  oldSvg.parentNode.replaceChild(imported, oldSvg);
+                })
+                .catch(err => console.error('SVG reload failed for', srcUrl, err));
+            }
+        
+            obj.addEventListener('load', () => {
+              // initial update if you like:
+              // reloadSVG();
+              setInterval(reloadSVG, REFRESH_MS);
+            });
+          });
+        });
+    </script>
+</body>
+</html>

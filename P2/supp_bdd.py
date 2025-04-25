@@ -1,23 +1,28 @@
 #!/usr/bin/env python3
 
-from sys import path as pathSys, argv
+from sys import path as pathSys
 from os import path as pathOs
+from datetime import datetime, timedelta, timezone
 
 pathSys.append(pathOs.dirname(pathOs.dirname(pathOs.abspath(__file__))))
+from config import SUPRESSION_DONNEE_OBSOLETES_HOURS
 from DB_init import init
 from log_manager import log_error
 
-def delete(table,time,unit):
+def delete():
     conn = init()
     if not conn:
         return
     
     try:
+        seuil_temps = (datetime.now(timezone.utc) - timedelta(minutes=SUPRESSION_DONNEE_OBSOLETES_HOURS)).strftime('%Y-%m-%d %H:%M:%S')
+
         conn.execute(
             f"""
-            DELETE FROM {table}
-            WHERE timestamp < datetime('now', '-{time} {unit}');
-            """
+            DELETE FROM sonde_data
+            WHERE DATETIME(timestamp) < ?;
+            """,
+            (seuil_temps,)
         )
         conn.commit()
     except Exception as e:
@@ -27,7 +32,4 @@ def delete(table,time,unit):
             conn.close()
 
 if __name__ == '__main__':
-    table = argv[1] # ex: sonde_data
-    time = argv[2] # ex: 1
-    unit = argv[3] # ex: DAY
-    delete(table,time,unit)
+    delete()
